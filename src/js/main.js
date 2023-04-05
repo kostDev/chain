@@ -13,7 +13,7 @@ const game = new Engine('game-canvas', {
 });
 
 game
-  .mouseLeave((mouseX, mouseY) => {
+  .mouseLeave(() => {
     store.mouseX = null;
     store.mouseY = null;
   })
@@ -30,7 +30,11 @@ const setup = () => {
   // px
   const size = 16 , padding = 1;
 
-  for(let y = 1, indexY = 0; y + size + padding <= sHeight; y += size + padding, indexY++) {
+  for(
+    let y = 1, indexY = 0;
+    y + size + padding <= sHeight;
+    y += size + padding, indexY++
+  ) {
     store.grid.push([]);
     for(let x = 1; x + size + padding <= sWidth; x += size + padding) {
       store.grid[indexY].push({
@@ -50,8 +54,8 @@ const update = () => {
     row.forEach(cell => {
       // check position status
       isCellHovered = store.mouseX && store.mouseY &&
-        cell.x <= store.mouseX && store.mouseX < cell.x + cell.w &&
-        cell.y <= store.mouseY && store.mouseY < cell.y + cell.h;
+        cell.x <= store.mouseX && store.mouseX <= cell.x + cell.w &&
+        cell.y <= store.mouseY && store.mouseY <= cell.y + cell.h;
       // draw rect
       game.rect(
         cell.x, cell.y,

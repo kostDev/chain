@@ -57,11 +57,11 @@ Engine.prototype.setBackgroundColor = function (colorName) {
 Engine.prototype.setup = function () {}
 Engine.prototype.update = function () {}
 // main game function
-Engine.prototype.init = function (flow = { setup: null, update: null }) {
-  if(flow.setup && flow.update) {
+Engine.prototype.init = function ({ setup, update }) {
+  if(setup && update) {
     const self = this;
-    this.setup = flow.setup;
-    this.update = flow.update;
+    this.setup = setup;
+    this.update = update;
     // call function setup
     this.setup();
     // add optimisation for frame rate
