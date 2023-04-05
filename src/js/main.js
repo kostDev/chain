@@ -3,62 +3,61 @@ import Engine from "./lib/engine.js";
 const game = new Engine('game-canvas', {
   width: 920,
   height: 630,
-  bgColor: 'silver',
+  background: false,
+  // game store
   store: {
-    grid: []
+    grid: [],
+    cellColor: 'purple',
+    activeCellColor: 'lightblue'
   }
 });
 
-game.mouseLeave((mouseX, mouseY) => {
-  store.mouseX = null;
-  store.mouseY = null;
-});
-game.mouseMove((mouseX, mouseY) => {
-  // console.log(mouseX, mouseY);
-  store.mouseX = mouseX;
-  store.mouseY = mouseY;
-});
+game
+  .mouseLeave((mouseX, mouseY) => {
+    store.mouseX = null;
+    store.mouseY = null;
+  })
+  .mouseMove((mouseX, mouseY) => {
+    // console.log(mouseX, mouseY);
+    store.mouseX = mouseX;
+    store.mouseY = mouseY;
+  });
 
 const store = game.store;
 
 const setup = () => {
-  const width = game.width;
-  const height = game.height;
-  const cellW = 16;
-  const cellH = 16;
-  const padding = 1;
+  const [ sWidth, sHeight ] = game.getScreenSize();
+  // px
+  const size = 16 , padding = 1;
 
-  for(let y = 1, indexY = 0; y + cellH + padding <= height; y+= cellH + padding, indexY++) {
+  for(let y = 1, indexY = 0; y + size + padding <= sHeight; y += size + padding, indexY++) {
     store.grid.push([]);
-    for(let x = 1; x + cellW + padding <= width; x+= cellW + padding) {
-      store.grid[indexY].push({ x,y, w: cellW, h: cellH, color: 'purple' });
+    for(let x = 1; x + size + padding <= sWidth; x += size + padding) {
+      store.grid[indexY].push({
+        x,y,
+        w: size, h: size,
+      });
     }
   }
-
+  console.log(game);
 }
 
+// game.circle(200, 50, 25, 'purple');
 const update = () => {
-  // game.circle(200,50, 25, 'purple');
+  let isCellHovered = false;
+
   store.grid.forEach(row => {
     row.forEach(cell => {
-      if(
-        store.mouseX && store.mouseY &&
+      // check position status
+      isCellHovered = store.mouseX && store.mouseY &&
         cell.x <= store.mouseX && store.mouseX < cell.x + cell.w &&
-        cell.y <= store.mouseY && store.mouseY < cell.y + cell.h
-      ) {
-        game.rect(
-          cell.x, cell.y,
-          cell.w, cell.h,
-          'green'
-        );
-      } else {
-        game.rect(
-          cell.x, cell.y,
-          cell.w, cell.h,
-          cell.color
-        );
-      }
-
+        cell.y <= store.mouseY && store.mouseY < cell.y + cell.h;
+      // draw rect
+      game.rect(
+        cell.x, cell.y,
+        cell.w, cell.h,
+        isCellHovered ? store.activeCellColor : store.cellColor
+      );
     })
   })
 }
