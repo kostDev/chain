@@ -1,0 +1,10 @@
+# webstorm settings files
+.idea
+vcs.xml
+workspace.xml
+modules.xml
+# Default ignored files
+/shelf/
+# Editor-based HTTP Client requests
+/httpRequests/
+
