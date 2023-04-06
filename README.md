@@ -15,20 +15,24 @@ You can use this library for game development on JavaScript for Web.
 ### Use Chain.js in Project - Example:
 
 ```js
-const game = new Engine('game-canvas', {
-  // fps: 60, // default fps value
-  width: 920,
-  height: 630,
+const game = new Engine({
+  id: 'game-canvas', // your canvas id
+  fps: 60, // default fps value
+  width: 640,
+  height: 480,
   // canvas background color
   // can be `false` if don't want to show bg color for canvas
-  background: 'green',
-  // game store
+  background: 'whitesmoke',
+  // game store = {}
   store: {
-    cellSize: 16, // px
+    cellColorPurple: 'purple',
+    cellColorBlack: 'black',
+    cellSize: 48, // px
   }
 });
 const store = game.store();
 ```
+
 ```js
 // mouse events
 game
@@ -44,7 +48,18 @@ const setup = () => {
   console.log('cellSize', store.cellSize)
 };
 // all code will call in game LOOP
-const update = () => {};
+const update = () => {
+  //         x, y,  w, h, color
+  if(game.timer % 10 === 0) {
+    game.rect(
+      50, 50, store.cellSize, store.cellSize, store.cellColorBlack
+    );
+  } else {
+    game.rect(
+      50, 50, store.cellSize, store.cellSize, store.cellColorPurple
+    );
+  }
+};
 // activate & run our game
 game
   .init({ setup, update })
