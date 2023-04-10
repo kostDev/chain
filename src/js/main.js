@@ -43,30 +43,12 @@ const setup = () => {
   }
   // -------
   // , '\n', game
-  console.log(new Date().toLocaleString());
+  // console.log(new Date().toLocaleString());
 }
 
 let cell = { x: 24, y: 24, r: 16 };
 
 const update = () => {
-  // store.grid.forEach(row => {
-  //   row.forEach(cell => {
-  //     // check position status
-  //     // isCellHovered = store.mouseX && store.mouseY &&
-  //     //   cell.x <= store.mouseX && store.mouseX <= cell.x + cell.w + store.padding &&
-  //     //   cell.y <= store.mouseY && store.mouseY <= cell.y + cell.h;
-  //     // cell.hovered = isCellHovered;
-  //     // isCellHovered ? store.activeCellColor : store.cellColor
-  //     // draw rect
-  //     game.rect(
-  //       cell.x, cell.y,
-  //       cell.w, cell.h,
-  //       store.cellColor
-  //     );
-  //   })
-  // });
-
-
   if( cell.x + cell.r + store.speedX > 920 ||
       cell.x - cell.r + store.speedX <= 0
   ) {
@@ -86,7 +68,7 @@ const update = () => {
   // game.circle(200, 50, 25, 'purple');
   // game.point(100,100, 'yellow');
   // game.line(102,102,494, 102, 'blue');
-  game.text('Map Generator ', 340, 24, 'white', 20)
+  game.text('Testing Framerate', 340, 24, 'white', 20)
 }
 
 game

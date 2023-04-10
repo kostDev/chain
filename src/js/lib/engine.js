@@ -19,7 +19,6 @@ function Engine(params) {
   this.ctx = this.canvas.getContext('2d');
   // canvas settings
   // this.ctx.globalAlpha = 1.0;
-
   if(params.lineSharped) {
     this.ctx.lineCap = "sharp";
     this.ctx.lineJoin = "sharp";
@@ -45,7 +44,6 @@ function Engine(params) {
   this.width = params.width;
   this.height = params.height;
   // ------------
-
   // canvas background
   this.background = params.background;
   this.fps = params.fps;
@@ -53,8 +51,6 @@ function Engine(params) {
   this.lastTime = 0;
 
   const self = this;
-
-
   // Utils
   this.utils = {
     getCanvasRect: () => self.canvas.getBoundingClientRect(),
