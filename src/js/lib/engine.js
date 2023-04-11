@@ -5,7 +5,7 @@ const _ENGINE_PARAMS = {
   height: 480,
   // canvas params
   background: 'silver',
-  pixelated: false,   // default false
+  pixelated: true,   // default false
   lineSharped: false, // default false
   // game store
   store: {},
@@ -27,7 +27,6 @@ function Engine(params) {
   if(params.pixelated) {
     this.canvas.style.imageRendering = 'pixelated';
   }
-  // remove blue effect
   // this.ctx.imageSmoothingEnabled = true;
   // fix pixel density
   this.pixelRatio = window.devicePixelRatio;
@@ -44,11 +43,14 @@ function Engine(params) {
   this.width = params.width;
   this.height = params.height;
   // ------------
-  // canvas background
+  // canvas default background
   this.background = params.background;
+  this.stopRequestAnimation = null;
   this.fps = params.fps;
-  this.frameStep = 1_000 / this.fps;
-  this.lastTime = 0;
+  this.time_step = 1000 / 60;
+  this.last_time = null;
+  this.total_time = 0;
+  this.accumulated_lag = 0;
 
   const self = this;
   // Utils
@@ -79,48 +81,10 @@ function Engine(params) {
       return this.events;
     }
   }
-
-  // default Settings
-  this.setBackgroundColor = function (colorName) {
-    this.background = colorName;
-  }
-  this.setPixelated = function (pixelated = true) {
-    this.canvas.style.imageRendering = pixelated ? 'pixelated' : 'initial';
-  }
-  this.setLineSharped = function (sharped) {
-    if(sharped) {
-      this.ctx.lineCap = "sharp";
-      this.ctx.lineJoin = "sharp";
-    } else {
-      this.ctx.lineCap = "butt";
-      this.ctx.lineJoin = "miterLimit";
-    }
-  }
 }
 
-
-// engine FLOW
-Engine.prototype.setup = function () {}
-Engine.prototype.update = function () {}
-// main game function
-Engine.prototype.init = function ({ setup, update }) {
-  if(setup || update) {
-    this.setup = setup;
-    this.update = update;
-    // call function setup
-    this.setup();
-    // add optimisation for frame rate
-    // document.addEventListener("visibilitychange", function() {
-    //   if (document.hidden) {
-    //     self.fps = 1; // reduce frame rate to 1 fps
-    //     console.log('work')
-    //   } else {
-    //     self.fps = 60; // restore default frame rate
-    //   }
-    // });
-    // ------------------
-    return this;
-  }
+Engine.prototype.lerp = function (v1, v2, p) {
+  return v1 * (1 - p) + v2 * p
 }
 
 // SHAPES -> text
@@ -169,46 +133,4 @@ Engine.prototype.line = function (
   this.ctx.restore();
 }
 // SHAPES -> rect
-Engine.prototype.rect = function (
-  x = 0, y = 0,
-  w = 32, h = 32,
-  color = 'red'
-) {
-  this.ctx.fillStyle = color;
-  this.ctx.fillRect(x, y, w, h);
-  // clear ctx
-  this.ctx.restore();
-}
 // SHAPES -> circle
-Engine.prototype.circle = function (
-  x = 0, y = 0,
-  radius = 32,
-  color = 'red'
-) {
-  this.ctx.fillStyle = color;
-  this.ctx.beginPath();
-  this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  this.ctx.fill();
-  // clear ctx
-  this.ctx.restore();
-}
-
-Engine.prototype.run = function () {
-  const now = window.performance.now();
-  const deltaTime = Math.max(0, (now - this.lastTime) / this.frameStep); //
-  // Clear canvas
-  this.ctx.clearRect(0, 0, this.width, this.height);
-  // default background screen
-  if(this.background) {
-    this.ctx.fillStyle = this.background;
-    this.ctx.fillRect(0, 0, this.width, this.height);
-  }
-  // Update game state
-  this.update(+deltaTime.toFixed(2));
-  // add
-  //self.lastTime = currentTime;
-  this.lastTime = now;
-  window.requestAnimationFrame(this.run.bind(this));
-}
-
-export default Engine;
