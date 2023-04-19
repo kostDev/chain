@@ -1,12 +1,12 @@
-const options = {
+const params = {
   canvasId: 'game-canvas',
-  bg: '#fff',
+  bg: 'black',
   width: 800,
   height: 600,
   fps: 20,
 }
 
-new Chain(options)
+new Chain(params)
   .setup((store) => {
     store.x = 10;
     store.size = 50

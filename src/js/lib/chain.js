@@ -153,20 +153,19 @@ class Shapes {
     this.ctx.fillStyle = color;
     return this;
   }
-  text(
-    text = 'Hello Dev',
-    x = 0, y = 0,
-    color = 'red',
-    fontSize = 12,
-    font  = 'monospace'
-  ) {
-    // set font Color
+  fillText(color = 'black', fontSize = 12, font  = 'monospace') {
     this.ctx.fillStyle = color;
     // Set font and size
     this.ctx.font = `${fontSize}px ${font}`; //'30px Arial';
+    return this;
+  }
+  text(
+    text = '',
+    x = 0, y = 0,
+  ) {
     this.ctx.fillText(text, x, y)
-    // clear ctx
     this.ctx.restore();
+    return  this;
   }
   // SHAPES -> point
   point(
@@ -177,8 +176,8 @@ class Shapes {
     this.ctx.beginPath();
     this.ctx.arc(x, y, 2, 0, 2 * Math.PI);
     this.ctx.fill();
-    // clear ctx
     this.ctx.restore();
+    return this;
   }
   // SHAPES -> line
   line(
@@ -196,6 +195,7 @@ class Shapes {
     this.ctx.stroke();  // draw the line
     // clear ctx
     this.ctx.restore();
+    return this;
   }
   rect(
     x = 0, y = 0,
@@ -209,13 +209,15 @@ class Shapes {
   circle = function (
     x = 0, y = 0,
     radius = 32,
-    color = 'red'
   ) {
-    this.ctx.fillStyle = color;
     this.ctx.beginPath();
     this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
     this.ctx.fill();
     // clear ctx
     this.ctx.restore();
+
+    return this;
   }
 }
+
+export default Chain;
