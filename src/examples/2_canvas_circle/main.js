@@ -1,19 +1,23 @@
-import Engine from "../../js/lib/engine.js";
+import Chain from "../../js/lib/chain.js";
 
-const game = new Engine({
-  id: 'game-canvas',
-  width: 640,
-  height: 480,
-  background: 'orange'
-})
-
-const setup = () => {
-  console.log('Working!')
+const params = {
+  canvasId: 'game-canvas',
+  bg: 'grey',
+  width: 800,
+  height: 600,
 }
-const update = () => {
-  game.circle(320, 240, 48, 'white');
-};
 
-game
-  .init({ setup, update })
+new Chain(params)
+  .setup((store) => {
+    store.x = 150;
+    store.y = 150;
+    store.r = 50
+  })
+  .update((shapes, store) => {
+    shapes
+      .fill('black')
+      .circle(store.x, store.y, store.r)
+  })
   .run();
+
+

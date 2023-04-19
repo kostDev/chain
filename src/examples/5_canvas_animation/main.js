@@ -11,14 +11,19 @@ new Chain(params)
   .setup((store) => {
     store.x = 125;
     store.y = 75;
-    store.fontSize = 42;
+    store.r = 48;
+    store.speed = 2.5;
     store.text = 'Hello Chain'
   })
   .update((shapes, store) => {
     shapes
-      .fillText('gold', store.fontSize)
-      .text(store.text, store.x, store.y)
-      .fillText('purple', store.fontSize - 8)
-      .text(store.text, store.x, store.y + 48)
+      .fill('gold')
+      .circle(store.x, store.y, store.r)
+
+    if(store.x >= 640 + store.r * 2) {
+      store.x = -store.speed + store.r
+    } else {
+      store.x += store.speed;
+    }
   })
   .run();
