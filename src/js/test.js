@@ -1,24 +1,28 @@
+import Chain from "./lib/chain.js";
+
 const params = {
   canvasId: 'game-canvas',
   bg: 'black',
   width: 800,
   height: 600,
-  fps: 20,
 }
 
 new Chain(params)
   .setup((store) => {
     store.x = 10;
+    store.y1 = 10;
+    store.y2 = 80;
+    store.y3 = 150;
     store.size = 50
   })
   .update((shapes, store) => {
     shapes
-      .fill('black')
-      .rect(store.x, shapes.height/2 - 130, store.size, store.size)
-      .fill('grey')
-      .rect(store.x, shapes.height/2 - 75, store.size, store.size)
+      .fill('white')
+      .rect(store.x, store.y1, store.size, store.size)
       .fill('silver')
-      .rect(store.x, shapes.height/2 - 20, store.size, store.size);
+      .rect(store.x, store.y2, store.size, store.size)
+      .fill('grey')
+      .rect(store.x, store.y3, store.size, store.size);
   })
   .run();
 
