@@ -1,6 +1,6 @@
-const STOPPED = Symbol.for("@@gameloop/stopped");
-const PAUSED = Symbol.for("@@gameloop/paused");
-const RUNNING = Symbol.for("@@gameloop/running");
+const STOPPED = Symbol.for("loop/stopped");
+const PAUSED = Symbol.for("loop/paused");
+const RUNNING = Symbol.for("loop/running");
 
 class Chain {
   #_numberOfUpdates = 0;
